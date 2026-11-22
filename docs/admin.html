@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#18251C">
+    <meta name="description" content="CIVISync administrator console for emergency request management and municipal response coordination.">
+
+    <title>Admin Console | CIVISync</title>
+
+    <!-- Quicksand typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <!-- Site icon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+
+    <!-- Administrator dashboard stylesheet -->
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-page">
+    <div class="admin-background" aria-hidden="true">
+        <div class="admin-background__orb admin-background__orb--one"></div>
+        <div class="admin-background__orb admin-background__orb--two"></div>
+        <div class="admin-background__orb admin-background__orb--three"></div>
+        <div class="admin-background__grid"></div>
+    </div>
+
+    <div class="admin-shell">
+        <!-- ==================================================
+             SIDEBAR
+        =================================================== -->
+        <aside class="admin-sidebar" id="adminSidebar" aria-label="Administrator navigation">
+            <a class="admin-brand" href="/" aria-label="LGU Assist home">
+                <span class="admin-brand__icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 5L53 13V29C53 43 44 54 32 60C20 54 11 43 11 29V13L32 5Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                        <path d="M22 32L29 39L43 24" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="admin-brand__name">CIVISync</span>
+            </a>
+
+            <p class="admin-sidebar__label">ADMIN CONSOLE</p>
+
+            <nav class="admin-nav" aria-label="Dashboard sections">
+                <button class="admin-nav__item is-active" type="button" data-view-target="request-queue" aria-current="page">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 5.2 5h13.6l2.2 5.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/><path d="M3 10.5h5l1.5 3h5l1.5-3h5M8 5l1-2h6l1 2"/></svg>
+                    <span>Request Queue</span>
+                    <span class="admin-nav__count" aria-label="2 pending requests">2</span>
+                </button>
+
+                <button class="admin-nav__item" type="button" data-view-target="response-teams">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 3.2a4 4 0 0 1 0 7.6M18 14.7a4 4 0 0 1 4 4V20"/></svg>
+                    <span>Response Teams</span>
+                </button>
+
+                <button class="admin-nav__item" type="button" data-view-target="announcements">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-7-5 17-4-7-9-3Z"/><path d="m12 14 3 4"/></svg>
+                    <span>Announcements</span>
+                </button>
+
+                <button class="admin-nav__item" type="button" data-view-target="reports">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                    <span>Reports</span>
+                </button>
+
+                <button class="admin-nav__item" type="button" data-view-target="accounts">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20M8.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM19 8v6M16 11h6"/></svg>
+                    <span>Accounts</span>
+                </button>
+
+                <button class="admin-nav__item" type="button" data-view-target="activity-log">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>
+                    <span>Activity Log</span>
+                </button>
+            </nav>
+
+            <div class="admin-sidebar__spacer"></div>
+
+            <div class="admin-profile">
+                <div class="admin-profile__avatar" aria-hidden="true">MR</div>
+                <div class="admin-profile__details">
+                    <strong id="adminDisplayName">Miguel Reyes</strong>
+                    <span>Administrator</span>
+                    <a href="/login.html" class="admin-profile__signout">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>
+                        Sign out
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================================================
+             MAIN CONTENT
+        =================================================== -->
+        <main class="admin-main" id="adminMain">
+            <div class="admin-mobile-bar">
+                <a class="admin-brand admin-brand--mobile" href="/" aria-label="LGU Assist home">
+                    <span class="admin-brand__icon" aria-hidden="true">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 5L53 13V29C53 43 44 54 32 60C20 54 11 43 11 29V13L32 5Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M22 32L29 39L43 24" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span class="admin-brand__name">CIVISync</span>
+                </a>
+                <button class="admin-mobile-menu" type="button" id="mobileMenuButton" aria-label="Toggle administrator navigation" aria-expanded="false" aria-controls="adminSidebar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                </button>
+            </div>
+
+            <!-- REQUEST QUEUE -->
+            <section class="admin-view is-active" id="view-request-queue" data-view="request-queue" aria-labelledby="requestQueueTitle">
+                <header class="admin-page-heading">
+                    <div>
+                        <p class="admin-eyebrow">ADMIN CONSOLE / OPERATIONS</p>
+                        <h1 id="requestQueueTitle">Emergency request queue</h1>
+                        <p>Review, prioritize, and assign response teams to incoming resident requests.</p>
+                    </div>
+                    <div class="admin-page-heading__actions">
+                        <span class="admin-live-indicator"><span></span> Queue overview</span>
+                    </div>
+                </header>
+
+                <div class="admin-stat-grid admin-stat-grid--three">
+                    <article class="admin-stat-card">
+                        <span class="admin-stat-card__icon admin-stat-card__icon--sage" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M3 10.5 5.2 5h13.6l2.2 5.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/><path d="M3 10.5h5l1.5 3h5l1.5-3h5"/></svg>
+                        </span>
+                        <div><strong class="admin-stat-card__value">2</strong><span>Pending review</span></div>
+                    </article>
+                    <article class="admin-stat-card">
+                        <span class="admin-stat-card__icon admin-stat-card__icon--red" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="m10.3 4.2-8 14A1.7 1.7 0 0 0 3.8 21h16.4a1.7 1.7 0 0 0 1.5-2.8l-8-14a1.9 1.9 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg>
+                        </span>
+                        <div><strong class="admin-stat-card__value">1</strong><span>Critical priority</span></div>
+                    </article>
+                    <article class="admin-stat-card">
+                        <span class="admin-stat-card__icon admin-stat-card__icon--amber" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                        </span>
+                        <div><strong class="admin-stat-card__value">2</strong><span>In progress</span></div>
+                    </article>
+                </div>
+
+                <div class="admin-panel admin-table-panel">
+                    <div class="admin-panel__toolbar">
+                        <div>
+                            <h2>Incoming requests</h2>
+                            <p>Review each request and coordinate its response.</p>
+                        </div>
+                        <div class="admin-toolbar-controls">
+                            <label class="admin-search" for="requestSearch">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
+                                <input id="requestSearch" type="search" placeholder="Search requests..." autocomplete="off">
+                            </label>
+                            <select class="admin-select admin-select--filter" id="requestStatusFilter" aria-label="Filter requests by status">
+                                <option value="all">All statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="assigned">Assigned</option>
+                                <option value="in progress">In progress</option>
+                                <option value="verified">Verified</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-table-wrap">
+                        <table class="admin-table" id="requestTable">
+                            <thead><tr>
+                                <th scope="col">Request</th><th scope="col">Resident</th><th scope="col">Filed</th><th scope="col">Priority</th><th scope="col">Team</th><th scope="col">Status</th>
+                            </tr></thead>
+                            <tbody>
+                                <tr data-status="in progress">
+                                    <td><div class="request-cell"><strong>REQ-2026-0841</strong><b>Flood Assistance</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Riverside</span></div></td>
+                                    <td>Juan Dela Cruz</td><td class="muted-cell">9:14 AM</td>
+                                    <td><span class="priority-pill priority-pill--high">High</span></td>
+                                    <td><select class="admin-select admin-select--team" aria-label="Assign team to request REQ-2026-0841"><option selected>Rescue Team Alpha</option><option>Fire Response Bravo</option><option>Medical Unit One</option><option>Road Clearance Unit</option><option>Relief Distribution</option><option>Unassigned</option></select></td>
+                                    <td><span class="status-pill status-pill--progress">In progress</span></td>
+                                </tr>
+                                <tr data-status="pending">
+                                    <td><div class="request-cell"><strong>REQ-2026-0842</strong><b>Medical Emergency</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Poblacion</span></div></td>
+                                    <td>Maria Santos</td><td class="muted-cell">9:02 AM</td>
+                                    <td><span class="priority-pill priority-pill--critical">Critical</span></td>
+                                    <td><select class="admin-select admin-select--team" aria-label="Assign team to request REQ-2026-0842"><option selected>Unassigned</option><option>Rescue Team Alpha</option><option>Fire Response Bravo</option><option>Medical Unit One</option><option>Road Clearance Unit</option><option>Relief Distribution</option></select></td>
+                                    <td><span class="status-pill status-pill--pending">Pending</span></td>
+                                </tr>
+                                <tr data-status="assigned">
+                                    <td><div class="request-cell"><strong>REQ-2026-0839</strong><b>House Fire</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Purok 3</span></div></td>
+                                    <td>Pedro Reyes</td><td class="muted-cell">8:47 AM</td>
+                                    <td><span class="priority-pill priority-pill--high">High</span></td>
+                                    <td><select class="admin-select admin-select--team" aria-label="Assign team to request REQ-2026-0839"><option>Unassigned</option><option>Rescue Team Alpha</option><option selected>Fire Response Bravo</option><option>Medical Unit One</option><option>Road Clearance Unit</option><option>Relief Distribution</option></select></td>
+                                    <td><span class="status-pill status-pill--assigned">Assigned</span></td>
+                                </tr>
+                                <tr data-status="verified">
+                                    <td><div class="request-cell"><strong>REQ-2026-0836</strong><b>Typhoon Relief</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>San Isidro</span></div></td>
+                                    <td>Ana Lopez</td><td class="muted-cell">8:15 AM</td>
+                                    <td><span class="priority-pill priority-pill--medium">Medium</span></td>
+                                    <td><select class="admin-select admin-select--team" aria-label="Assign team to request REQ-2026-0836"><option selected>Unassigned</option><option>Rescue Team Alpha</option><option>Fire Response Bravo</option><option>Medical Unit One</option><option>Road Clearance Unit</option><option>Relief Distribution</option></select></td>
+                                    <td><span class="status-pill status-pill--verified">Verified</span></td>
+                                </tr>
+                                <tr data-status="pending">
+                                    <td><div class="request-cell"><strong>REQ-2026-0833</strong><b>Earthquake Inspection</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Rizal Ave</span></div></td>
+                                    <td>Carlo Mendoza</td><td class="muted-cell">7:58 AM</td>
+                                    <td><span class="priority-pill priority-pill--medium">Medium</span></td>
+                                    <td><select class="admin-select admin-select--team" aria-label="Assign team to request REQ-2026-0833"><option selected>Unassigned</option><option>Rescue Team Alpha</option><option>Fire Response Bravo</option><option>Medical Unit One</option><option>Road Clearance Unit</option><option>Relief Distribution</option></select></td>
+                                    <td><span class="status-pill status-pill--pending">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="admin-table-note">Example records for the dashboard layout. Live request data will come from the application backend.</p>
+                </div>
+            </section>
+
+            <!-- RESPONSE TEAMS -->
+            <section class="admin-view" id="view-response-teams" data-view="response-teams" aria-labelledby="responseTeamsTitle" hidden>
+                <header class="admin-page-heading">
+                    <div>
+                        <p class="admin-eyebrow">ADMIN CONSOLE / OPERATIONS</p>
+                        <h1 id="responseTeamsTitle">Response teams</h1>
+                        <p>Manage team records, rosters, and current deployments.</p>
+                    </div>
+                    <div class="admin-page-heading__actions"><span class="admin-live-indicator"><span></span> Team registry</span></div>
+                </header>
+
+                <div class="admin-team-grid">
+                    <article class="admin-team-card admin-team-card--deployed">
+                        <div class="admin-team-card__heading"><div><h2>Rescue Team Alpha</h2><p>Flood &amp; Water Rescue</p></div><span class="status-pill status-pill--deployed">Deployed</span></div>
+                        <div class="admin-team-card__details"><p>Leader: <strong>Cpt. R. Domingo</strong></p><p>Members: <strong>8</strong></p><p>Assignment: <strong>REQ-2026-0841</strong></p></div>
+                        <button class="admin-button admin-button--secondary admin-button--wide" type="button" data-team-action="recall" data-team="Rescue Team Alpha">Recall team</button>
+                    </article>
+
+                    <article class="admin-team-card admin-team-card--deployed">
+                        <div class="admin-team-card__heading"><div><h2>Fire Response Bravo</h2><p>Fire Suppression</p></div><span class="status-pill status-pill--deployed">Deployed</span></div>
+                        <div class="admin-team-card__details"><p>Leader: <strong>Cpt. M. Salazar</strong></p><p>Members: <strong>6</strong></p><p>Assignment: <strong>REQ-2026-0839</strong></p></div>
+                        <button class="admin-button admin-button--secondary admin-button--wide" type="button" data-team-action="recall" data-team="Fire Response Bravo">Recall team</button>
+                    </article>
+
+                    <article class="admin-team-card admin-team-card--deployed">
+                        <div class="admin-team-card__heading"><div><h2>Medical Unit One</h2><p>EMS / Ambulance</p></div><span class="status-pill status-pill--deployed">Deployed</span></div>
+                        <div class="admin-team-card__details"><p>Leader: <strong>Dr. A. Ramirez</strong></p><p>Members: <strong>5</strong></p><p>Assignment: <strong>REQ-2026-0827</strong></p></div>
+                        <button class="admin-button admin-button--secondary admin-button--wide" type="button" data-team-action="recall" data-team="Medical Unit One">Recall team</button>
+                    </article>
+
+                    <article class="admin-team-card">
+                        <div class="admin-team-card__heading"><div><h2>Road Clearance Unit</h2><p>Debris &amp; Roads</p></div><span class="status-pill status-pill--available">Available</span></div>
+                        <div class="admin-team-card__details"><p>Leader: <strong>Engr. P. Bautista</strong></p><p>Members: <strong>10</strong></p><p>Assignment: <strong>None</strong></p></div>
+                        <button class="admin-button admin-button--secondary admin-button--wide" type="button" data-team-action="deploy" data-team="Road Clearance Unit">Deploy team</button>
+                    </article>
+
+                    <article class="admin-team-card">
+                        <div class="admin-team-card__heading"><div><h2>Relief Distribution</h2><p>Social Welfare</p></div><span class="status-pill status-pill--available">Available</span></div>
+                        <div class="admin-team-card__details"><p>Leader: <strong>Ms. J. Aquino</strong></p><p>Members: <strong>12</strong></p><p>Assignment: <strong>None</strong></p></div>
+                        <button class="admin-button admin-button--secondary admin-button--wide" type="button" data-team-action="deploy" data-team="Relief Distribution">Deploy team</button>
+                    </article>
+
+                    <button class="admin-team-card admin-team-card--add" type="button" data-open-team-form>
+                        <span class="admin-team-card__plus" aria-hidden="true">+</span>
+                        <strong>Register new team</strong>
+                    </button>
+                </div>
+
+                <section class="admin-panel admin-form-panel" id="teamFormPanel" hidden aria-labelledby="teamFormTitle">
+                    <div class="admin-panel__toolbar"><div><h2 id="teamFormTitle">Register a response team</h2><p>Add a team to the municipal response roster.</p></div><button class="admin-icon-button" type="button" data-close-team-form aria-label="Close team form">×</button></div>
+                    <form class="admin-form" id="teamForm">
+                        <div class="admin-form__grid">
+                            <label>Team name<input type="text" name="teamName" placeholder="e.g. Search and Rescue Charlie" required></label>
+                            <label>Team category<input type="text" name="teamCategory" placeholder="e.g. Search and Rescue" required></label>
+                            <label>Team leader<input type="text" name="teamLeader" placeholder="Full name" required></label>
+                            <label>Number of members<input type="number" name="teamMembers" min="1" placeholder="e.g. 8" required></label>
+                        </div>
+                        <div class="admin-form__actions"><button class="admin-button admin-button--primary" type="submit">Save team</button></div>
+                    </form>
+                </section>
+            </section>
+
+            <!-- ANNOUNCEMENTS -->
+            <section class="admin-view" id="view-announcements" data-view="announcements" aria-labelledby="announcementsTitle" hidden>
+                <header class="admin-page-heading">
+                    <div>
+                        <p class="admin-eyebrow">ADMIN CONSOLE / PUBLIC INFORMATION</p>
+                        <h1 id="announcementsTitle">Announcements</h1>
+                        <p>Publish advisories that appear on the public portal and resident feeds.</p>
+                    </div>
+                </header>
+
+                <div class="admin-announcement-layout">
+                    <section class="admin-panel admin-form-panel" aria-labelledby="publishAnnouncementTitle">
+                        <div class="admin-panel__heading"><h2 id="publishAnnouncementTitle">Create announcement</h2><p>Share verified information with residents.</p></div>
+                        <form class="admin-form" id="announcementForm">
+                            <label for="announcementTitle">Title</label>
+                            <input id="announcementTitle" name="title" type="text" placeholder="e.g. Flash flood warning — Riverside" required>
+
+                            <label for="announcementCategory">Category</label>
+                            <select id="announcementCategory" name="category" required>
+                                <option value="Typhoon">Typhoon</option>
+                                <option value="Flood">Flood</option>
+                                <option value="Earthquake">Earthquake</option>
+                                <option value="Fire">Fire</option>
+                                <option value="Evacuation">Evacuation</option>
+                                <option value="Notice">Notice</option>
+                            </select>
+
+                            <label for="announcementMessage">Message</label>
+                            <textarea id="announcementMessage" name="message" rows="6" placeholder="Write the advisory content..." required></textarea>
+
+                            <button class="admin-button admin-button--primary" type="submit">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-7-5 17-4-7-9-3Z"/><path d="m12 14 3 4"/></svg>
+                                Publish announcement
+                            </button>
+                            <p class="admin-form__note">Publishing will be connected to the announcement service/backend.</p>
+                        </form>
+                    </section>
+
+                    <section class="admin-announcements-list" aria-labelledby="publishedAnnouncementsTitle">
+                        <div class="admin-section-heading"><h2 id="publishedAnnouncementsTitle">Currently published</h2><span class="admin-section-heading__count">3 announcements</span></div>
+
+                        <article class="admin-announcement-card">
+                            <div class="admin-announcement-card__meta"><span class="category-pill category-pill--warning">Typhoon</span><span>MDRRMO · 42 min ago</span></div>
+                            <h3>TCWS #2 raised over coastal barangays</h3>
+                            <p>Signal No. 2 winds expected within 18 hours. Secure loose objects and prepare go-bags.</p>
+                        </article>
+
+                        <article class="admin-announcement-card">
+                            <div class="admin-announcement-card__meta"><span class="category-pill category-pill--notice">Notice</span><span>LGU Command · 1 hr ago</span></div>
+                            <h3>Sea travel suspended in all municipal ports</h3>
+                            <p>All ferry and fishing operations are suspended until further notice.</p>
+                        </article>
+
+                        <article class="admin-announcement-card">
+                            <div class="admin-announcement-card__meta"><span class="category-pill category-pill--warning">Evacuation</span><span>MDRRMO · 2 hrs ago</span></div>
+                            <h3>Pre-emptive evacuation begins 6:00 PM</h3>
+                            <p>Residents in low-lying areas must proceed to designated evacuation centers.</p>
+                        </article>
+                    </section>
+                </div>
+            </section>
+
+            <!-- REPORTS -->
+            <section class="admin-view" id="view-reports" data-view="reports" aria-labelledby="reportsTitle" hidden>
+                <header class="admin-page-heading admin-page-heading--with-action">
+                    <div>
+                        <p class="admin-eyebrow">ADMIN CONSOLE / ANALYTICS</p>
+                        <h1 id="reportsTitle">Reports</h1>
+                        <p>Operational insights across all emergency requests this month.</p>
+                    </div>
+                    <button class="admin-button admin-button--secondary" id="exportReportsButton" type="button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 17v3h16v-3"/></svg>
+                        Export CSV
+                    </button>
+                </header>
+
+                <div class="admin-stat-grid admin-stat-grid--four">
+                    <article class="admin-stat-card admin-stat-card--large"><strong class="admin-stat-card__value">12</strong><span>Requests today</span></article>
+                    <article class="admin-stat-card admin-stat-card--large"><strong class="admin-stat-card__value">18 min</strong><span>Avg. response time</span></article>
+                    <article class="admin-stat-card admin-stat-card--large"><strong class="admin-stat-card__value">96</strong><span>Resolved this week</span></article>
+                    <article class="admin-stat-card admin-stat-card--large"><strong class="admin-stat-card__value">2</strong><span>Critical pending</span></article>
+                </div>
+
+                <div class="admin-reports-grid">
+                    <section class="admin-panel admin-chart-panel" aria-labelledby="categoryChartTitle">
+                        <div class="admin-panel__heading"><h2 id="categoryChartTitle">Requests by category · This month</h2></div>
+                        <div class="admin-bar-chart" role="img" aria-label="Illustrative request counts by category: Flood 28, Typhoon 19, Medical 23, Fire 8, Earthquake 4.">
+                            <div class="admin-bar-chart__plot">
+                                <div class="admin-bar-chart__gridline admin-bar-chart__gridline--one"></div>
+                                <div class="admin-bar-chart__gridline admin-bar-chart__gridline--two"></div>
+                                <div class="admin-bar-chart__gridline admin-bar-chart__gridline--three"></div>
+                                <div class="admin-bar-chart__gridline admin-bar-chart__gridline--four"></div>
+                                <div class="admin-bar-chart__bars">
+                                    <div class="admin-bar-chart__column"><span style="--bar-height: 78%"></span><small>Flood</small></div>
+                                    <div class="admin-bar-chart__column"><span style="--bar-height: 52%"></span><small>Typhoon</small></div>
+                                    <div class="admin-bar-chart__column"><span style="--bar-height: 64%"></span><small>Medical</small></div>
+                                    <div class="admin-bar-chart__column"><span style="--bar-height: 20%"></span><small>Fire</small></div>
+                                    <div class="admin-bar-chart__column"><span style="--bar-height: 12%"></span><small>Earthquake</small></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="admin-table-note">Illustrative chart values for the dashboard preview; replace with computed report data.</p>
+                    </section>
+
+                    <section class="admin-panel admin-breakdown-panel" aria-labelledby="barangayBreakdownTitle">
+                        <div class="admin-panel__heading"><h2 id="barangayBreakdownTitle">Barangay breakdown</h2></div>
+                        <div class="admin-breakdown-list">
+                            <div class="admin-breakdown-item"><div><strong>Riverside</strong><span>34%</span></div><div class="admin-progress"><span style="width:34%"></span></div></div>
+                            <div class="admin-breakdown-item"><div><strong>Poblacion</strong><span>24%</span></div><div class="admin-progress"><span style="width:24%"></span></div></div>
+                            <div class="admin-breakdown-item"><div><strong>San Isidro</strong><span>18%</span></div><div class="admin-progress"><span style="width:18%"></span></div></div>
+                            <div class="admin-breakdown-item"><div><strong>Bagong Silang</strong><span>14%</span></div><div class="admin-progress"><span style="width:14%"></span></div></div>
+                            <div class="admin-breakdown-item"><div><strong>Others</strong><span>10%</span></div><div class="admin-progress"><span style="width:10%"></span></div></div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- ACCOUNTS -->
+            <section class="admin-view" id="view-accounts" data-view="accounts" aria-labelledby="accountsTitle" hidden>
+                <header class="admin-page-heading">
+                    <div>
+                        <p class="admin-eyebrow">ADMIN CONSOLE / RESIDENT RECORDS</p>
+                        <h1 id="accountsTitle">Resident accounts</h1>
+                        <p>Manage registered citizen accounts across all partner LGUs.</p>
+                    </div>
+                </header>
+
+                <section class="admin-panel admin-table-panel" aria-labelledby="residentAccountsTableTitle">
+                    <div class="admin-panel__toolbar">
+                        <div><h2 id="residentAccountsTableTitle">Registered residents</h2><p>Review account details and account status.</p></div>
+                        <label class="admin-search" for="accountSearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input id="accountSearch" type="search" placeholder="Search residents..." autocomplete="off"></label>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--accounts" id="accountsTable">
+                            <thead><tr><th scope="col">Resident</th><th scope="col">Barangay</th><th scope="col">Joined</th><th scope="col">Status</th><th scope="col" class="align-right">Action</th></tr></thead>
+                            <tbody>
+                                <tr><td><div class="account-cell"><strong>Juan Dela Cruz</strong><span>juan@email.com</span></div></td><td>Riverside</td><td class="muted-cell">Jan 2025</td><td><span class="status-pill status-pill--active">Active</span></td><td class="align-right"><button class="admin-button admin-button--danger-outline" type="button" data-account-action="suspend" data-account="Juan Dela Cruz">Suspend</button></td></tr>
+                                <tr><td><div class="account-cell"><strong>Maria Santos</strong><span>maria@email.com</span></div></td><td>Poblacion</td><td class="muted-cell">Mar 2025</td><td><span class="status-pill status-pill--active">Active</span></td><td class="align-right"><button class="admin-button admin-button--danger-outline" type="button" data-account-action="suspend" data-account="Maria Santos">Suspend</button></td></tr>
+                                <tr><td><div class="account-cell"><strong>Pedro Reyes</strong><span>pedro@email.com</span></div></td><td>Purok 3</td><td class="muted-cell">Jun 2025</td><td><span class="status-pill status-pill--active">Active</span></td><td class="align-right"><button class="admin-button admin-button--danger-outline" type="button" data-account-action="suspend" data-account="Pedro Reyes">Suspend</button></td></tr>
+                                <tr><td><div class="account-cell"><strong>Ana Lopez</strong><span>ana@email.com</span></div></td><td>San Isidro</td><td class="muted-cell">Feb 2026</td><td><span class="status-pill status-pill--suspended">Suspended</span></td><td class="align-right"><button class="admin-button admin-button--sage-outline" type="button" data-account-action="activate" data-account="Ana Lopez">Activate</button></td></tr>
+                                <tr><td><div class="account-cell"><strong>Carlo Mendoza</strong><span>carlo@email.com</span></div></td><td>Rizal Ave</td><td class="muted-cell">Apr 2026</td><td><span class="status-pill status-pill--active">Active</span></td><td class="align-right"><button class="admin-button admin-button--danger-outline" type="button" data-account-action="suspend" data-account="Carlo Mendoza">Suspend</button></td></tr>
+                                <tr><td><div class="account-cell"><strong>Liza Torres</strong><span>liza@email.com</span></div></td><td>Riverside</td><td class="muted-cell">Jul 2026</td><td><span class="status-pill status-pill--active">Active</span></td><td class="align-right"><button class="admin-button admin-button--danger-outline" type="button" data-account-action="suspend" data-account="Liza Torres">Suspend</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="admin-table-note">Example resident records for the dashboard layout. Account changes must be authorized and saved by the backend.</p>
+                </section>
+            </section>
+
+            <!-- ACTIVITY LOG -->
+            <section class="admin-view" id="view-activity-log" data-view="activity-log" aria-labelledby="activityLogTitle" hidden>
+                <header class="admin-page-heading">
+                    <div>
+                        <p class="admin-eyebrow">ADMIN CONSOLE / AUDIT TRAIL</p>
+                        <h1 id="activityLogTitle">Activity log</h1>
+                        <p>Review administrator actions and changes recorded in the system.</p>
+                    </div>
+                </header>
+
+                <section class="admin-panel admin-table-panel" aria-labelledby="activityTableTitle">
+                    <div class="admin-panel__toolbar">
+                        <div><h2 id="activityTableTitle">Recent activity</h2><p>Administrative actions, timestamps, and affected records.</p></div>
+                        <label class="admin-search" for="activitySearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input id="activitySearch" type="search" placeholder="Search activity..." autocomplete="off"></label>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table" id="activityTable">
+                            <thead><tr><th scope="col">Activity</th><th scope="col">Administrator</th><th scope="col">Affected record</th><th scope="col">Date &amp; time</th></tr></thead>
+                            <tbody>
+                                <!-- Activity entries will be populated from the backend audit log. -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="admin-empty-state" id="activityEmptyState">
+                        <span class="admin-empty-state__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>
+                        </span>
+                        <h3>No activity records yet</h3>
+                        <p>Recorded administrative actions will appear here when audit logging is connected.</p>
+                    </div>
+                </section>
+            </section>
+
+            <footer class="admin-footer">
+                <span>© 2026 CIVISync</span>
+                <span>Municipal Citizen Assistance &amp; Disaster Response System</span>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Confirmation / feedback dialog for dashboard actions -->
+    <dialog class="admin-dialog" id="adminDialog" aria-labelledby="adminDialogTitle">
+        <form method="dialog" class="admin-dialog__content">
+            <button class="admin-dialog__close" value="cancel" aria-label="Close dialog">×</button>
+            <p class="admin-eyebrow">ADMIN CONSOLE</p>
+            <h2 id="adminDialogTitle">Confirm action</h2>
+            <p id="adminDialogMessage">Please review this action.</p>
+            <div class="admin-dialog__actions">
+                <button class="admin-button admin-button--secondary" value="cancel">Cancel</button>
+                <button class="admin-button admin-button--primary" id="adminDialogConfirm" value="confirm">Continue</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Shared dashboard interactions will be added in admin.js. -->
+    <script src="/js/admin.js" defer></script>
+    <script>
+        // Basic section navigation keeps the six requested modules in one admin page.
+        document.addEventListener("DOMContentLoaded", () => {
+            const navItems = document.querySelectorAll("[data-view-target]");
+            const views = document.querySelectorAll("[data-view]");
+            const sidebar = document.getElementById("adminSidebar");
+            const menuButton = document.getElementById("mobileMenuButton");
+
+            function showView(viewName) {
+                views.forEach((view) => {
+                    const active = view.dataset.view === viewName;
+                    view.hidden = !active;
+                    view.classList.toggle("is-active", active);
+                });
+
+                navItems.forEach((item) => {
+                    const active = item.dataset.viewTarget === viewName;
+                    item.classList.toggle("is-active", active);
+                    if (active) item.setAttribute("aria-current", "page");
+                    else item.removeAttribute("aria-current");
+                });
+
+                sidebar.classList.remove("is-open");
+                menuButton?.setAttribute("aria-expanded", "false");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            navItems.forEach((item) => {
+                item.addEventListener("click", () => showView(item.dataset.viewTarget));
+            });
+
+            menuButton?.addEventListener("click", () => {
+                const open = sidebar.classList.toggle("is-open");
+                menuButton.setAttribute("aria-expanded", String(open));
+            });
+        });
+    </script>
+</body>
+</html>
