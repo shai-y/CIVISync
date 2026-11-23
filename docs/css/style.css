@@ -47,7 +47,19 @@
     --sand: #d0b18a;
 
     --card-radius: 24px;
+    --small-radius: 12px;
     --content-width: 1430px;
+
+    /* Legacy aliases: other pages (auth.css, admin) may still use
+       the original variable names. Remove once those are migrated. */
+    --navy-dark: var(--forest-dark);
+    --navy: var(--forest);
+    --navy-light: var(--forest-light);
+    --teal: var(--sage);
+    --teal-light: var(--sage-light);
+    --teal-dark: var(--sage-dark);
+    --white: var(--ivory);
+    --orange: var(--sand);
 
     --ease-out: cubic-bezier(0.2, 0.65, 0.3, 1);
 }
