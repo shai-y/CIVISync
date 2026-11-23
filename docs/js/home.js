@@ -1,59 +1,79 @@
+/* =========================================================
+   CIVISync — HOME PAGE SCRIPTS
+   1. Backend connection check
+   2. Emblem mouse tilt + particle parallax
+   3. Emblem scroll parallax
+   4. Cursor glow
+   5. Scroll reveal
+   6. Contact form (placeholder until backend is connected)
+========================================================= */
+
+"use strict";
+
+const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+).matches;
+
+
+/* =========================================================
+   1. BACKEND CONNECTION CHECK
+   Global so the inline onclick in index.html can call it.
+========================================================= */
+
 async function checkConnection() {
 
-    const backendStatus =
-        document.getElementById("backendStatus");
+    const statusEl = document.getElementById("backendStatus");
+    const messageEl = document.getElementById("backendMessage");
 
-    const backendMessage =
-        document.getElementById("backendMessage");
+    // Section is removable for production.
+    if (!statusEl || !messageEl) {
+        return;
+    }
+
+    statusEl.textContent = "Checking...";
 
     try {
 
         const response = await fetch("/api/status");
 
         if (!response.ok) {
-            throw new Error("Backend request failed");
+            throw new Error("Backend request failed: " + response.status);
         }
 
         const data = await response.json();
 
-        backendStatus.textContent =
-            "Status: " + data.status;
-
-        backendMessage.textContent =
-            data.message;
+        statusEl.textContent = "Status: " + data.status;
+        messageEl.textContent = data.message;
 
     } catch (error) {
 
-        backendStatus.textContent = "Offline";
-
-        backendMessage.textContent =
-            "Unable to connect to the Java backend.";
+        statusEl.textContent = "Offline";
+        messageEl.textContent = "Unable to connect to the Java backend.";
 
         console.error(error);
     }
 }
 
 
-
 /* =========================================================
-   LGU ASSIST — 3D PARALLAX MOUSE INTERACTION
+   2. EMBLEM — MOUSE TILT + PARTICLE PARALLAX
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+function initEmblemTilt() {
 
     const visual = document.getElementById("heroVisual");
-
     const emblem = document.getElementById("heroEmblem");
 
-    // Stop if the emblem does not exist on this page.
-    if (!visual || !emblem) {
+    if (!visual || !emblem || prefersReducedMotion) {
         return;
     }
 
-    // Respect accessibility settings.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return;
-    }
+    // Each particle: [CSS variable prefix, x factor, y factor]
+    const particles = [
+        ["--dot-one", -18, -14],
+        ["--dot-two", 22, 18],
+        ["--dot-three", -12, 20]
+    ];
 
     visual.addEventListener("pointermove", function (event) {
 
@@ -64,246 +84,166 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const rect = visual.getBoundingClientRect();
 
-        // Calculate the mouse position relative to the emblem.
-        const x = ((event.clientX - rect.left) / rect.width) - 0.5;
+        // Pointer position from -0.5 to 0.5 across the visual.
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-        const y = ((event.clientY - rect.top) / rect.height) - 0.5;
+        emblem.style.setProperty("--tilt-x", (-y * 16) + "deg");
+        emblem.style.setProperty("--tilt-y", (x * 20) + "deg");
 
-        // Convert mouse movement into 3D rotation.
-        const rotateX = -y * 16;
-
-        const rotateY = x * 20;
-
-        emblem.style.setProperty(
-            "--tilt-x",
-            rotateX + "deg"
-        );
-
-        emblem.style.setProperty(
-            "--tilt-y",
-            rotateY + "deg"
-        );
-
-
-        // Give the floating particles their own movement.
-
-        visual.style.setProperty(
-            "--dot-one-x",
-            (x * -18) + "px"
-        );
-
-        visual.style.setProperty(
-            "--dot-one-y",
-            (y * -14) + "px"
-        );
-
-        visual.style.setProperty(
-            "--dot-two-x",
-            (x * 22) + "px"
-        );
-
-        visual.style.setProperty(
-            "--dot-two-y",
-            (y * 18) + "px"
-        );
-
-        visual.style.setProperty(
-            "--dot-three-x",
-            (x * -12) + "px"
-        );
-
-        visual.style.setProperty(
-            "--dot-three-y",
-            (y * 20) + "px"
-        );
-
+        particles.forEach(function (particle) {
+            visual.style.setProperty(particle[0] + "-x", (x * particle[1]) + "px");
+            visual.style.setProperty(particle[0] + "-y", (y * particle[2]) + "px");
+        });
     });
-	
-	
-	/* =========================================================
-	   LGU ASSIST — CURSOR GLOW + SCROLL REVEAL
-	========================================================= */
 
-	document.addEventListener("DOMContentLoaded", function () {
-
-	    const reduceMotion = window.matchMedia(
-	        "(prefers-reduced-motion: reduce)"
-	    ).matches;
-
-
-	    /* =====================================================
-	       1. CURSOR FOLLOWING GLOW
-	    ===================================================== */
-
-	    const glowElements = document.querySelectorAll(`
-	        .header-container,
-	        .brand-icon,
-	        .main-navigation a,
-	        .nav-button,
-	        .hero-badge,
-	        .primary-button,
-	        .secondary-button,
-	        .highlight-item,
-	        .step-card,
-	        .step-icon,
-	        .advisory-panel,
-	        .advisory-card,
-	        .evacuation-panel,
-	        .information-item,
-	        .information-icon,
-	        .about-highlights > div,
-	        .contact-card,
-	        .contact-icon,
-	        .contact-form-panel,
-	        .contact-form-panel input,
-	        .contact-form-panel textarea,
-	        .outline-button,
-	        .system-test-section button,
-	        .footer-links a
-	    `);
-
-	    // Only activate cursor tracking on devices with a mouse
-	    if (window.matchMedia("(pointer: fine)").matches) {
-
-	        glowElements.forEach(function (element) {
-
-	            element.classList.add("cursor-glow");
-
-	            element.addEventListener("pointermove", function (event) {
-
-	                if (event.pointerType === "touch") {
-	                    return;
-	                }
-
-	                const rect = element.getBoundingClientRect();
-
-	                const x = (
-	                    (event.clientX - rect.left) / rect.width
-	                ) * 100;
-
-	                const y = (
-	                    (event.clientY - rect.top) / rect.height
-	                ) * 100;
-
-	                element.style.setProperty("--glow-x", x + "%");
-	                element.style.setProperty("--glow-y", y + "%");
-
-	            });
-
-	        });
-
-	    }
-
-
-	    /* =====================================================
-	       2. SCROLL REVEAL ANIMATION
-	    ===================================================== */
-
-	    const revealElements = document.querySelectorAll(`
-	        .hero-content,
-	        .hero-visual,
-	        .section-heading,
-	        .emergency-heading,
-	        .step-card,
-	        .advisory-panel,
-	        .advisory-card,
-	        .evacuation-panel,
-	        .information-item,
-	        .about-content,
-	        .about-highlights > div,
-	        .contact-card,
-	        .contact-form-panel,
-	        .system-test-section .section-container,
-	        .footer-content,
-	        .footer-bottom
-	    `);
-
-	    revealElements.forEach(function (element) {
-	        element.classList.add("reveal-on-scroll");
-	    });
-
-	    document.body.classList.add("reveal-enabled");
-
-	    // Do not animate if the user prefers reduced motion
-	    if (reduceMotion) {
-
-	        revealElements.forEach(function (element) {
-	            element.classList.add("is-visible");
-	        });
-
-	        return;
-	    }
-
-	    // Fallback for browsers without IntersectionObserver
-	    if (!("IntersectionObserver" in window)) {
-
-	        revealElements.forEach(function (element) {
-	            element.classList.add("is-visible");
-	        });
-
-	        return;
-	    }
-
-	    const revealObserver = new IntersectionObserver(
-	        function (entries, observer) {
-
-	            entries.forEach(function (entry) {
-
-	                if (entry.isIntersecting) {
-
-	                    entry.target.classList.add("is-visible");
-
-	                    // Reveal only once
-	                    observer.unobserve(entry.target);
-	                }
-
-	            });
-
-	        },
-	        {
-	            threshold: 0.12,
-	            rootMargin: "0px 0px -40px 0px"
-	        }
-	    );
-
-	    revealElements.forEach(function (element) {
-	        revealObserver.observe(element);
-	    });
-
-	});
-
-	
-
-
-    // Return the emblem to its original position.
-
+    // Return everything to its resting position.
     visual.addEventListener("pointerleave", function () {
 
         emblem.style.setProperty("--tilt-x", "0deg");
-
         emblem.style.setProperty("--tilt-y", "0deg");
 
-        visual.style.setProperty("--dot-one-x", "0px");
-        visual.style.setProperty("--dot-one-y", "0px");
-
-        visual.style.setProperty("--dot-two-x", "0px");
-        visual.style.setProperty("--dot-two-y", "0px");
-
-        visual.style.setProperty("--dot-three-x", "0px");
-        visual.style.setProperty("--dot-three-y", "0px");
-
+        particles.forEach(function (particle) {
+            visual.style.setProperty(particle[0] + "-x", "0px");
+            visual.style.setProperty(particle[0] + "-y", "0px");
+        });
     });
-
-});
+}
 
 
 /* =========================================================
-   LGU ASSIST — SCROLL REVEAL
+   3. EMBLEM — SCROLL PARALLAX
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+function initScrollParallax() {
 
-    const elements = document.querySelectorAll(`
+    const visual = document.getElementById("heroVisual");
+
+    if (!visual || prefersReducedMotion) {
+        return;
+    }
+
+    // Each glass layer moves at its own speed.
+    const layers = [
+        ["--scroll-back-y", 46],
+        ["--scroll-middle-y", 30],
+        ["--scroll-front-y", 16],
+        ["--scroll-ring-y", 8]
+    ];
+
+    let frame = null;
+
+    function update() {
+
+        const rect = visual.getBoundingClientRect();
+
+        const visualCenter = rect.top + rect.height / 2;
+        const viewportCenter = window.innerHeight / 2;
+        const maxDistance = (window.innerHeight + rect.height) / 2;
+
+        // -1 (below center) to 1 (above center)
+        const progress = Math.max(
+            -1,
+            Math.min(1, (viewportCenter - visualCenter) / maxDistance)
+        );
+
+        layers.forEach(function (layer) {
+            visual.style.setProperty(layer[0], (-progress * layer[1]) + "px");
+        });
+
+        frame = null;
+    }
+
+    function requestUpdate() {
+        if (frame === null) {
+            frame = requestAnimationFrame(update);
+        }
+    }
+
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    update();
+}
+
+
+/* =========================================================
+   4. CURSOR GLOW
+========================================================= */
+
+function initCursorGlow() {
+
+    // Only on devices with a precise pointer (mouse / trackpad).
+    if (!window.matchMedia("(pointer: fine)").matches) {
+        return;
+    }
+
+    // Pseudo-elements don't render on <input>/<textarea>,
+    // so form fields use their own focus style instead.
+    const glowElements = document.querySelectorAll(`
+        .header-container,
+        .brand-icon,
+        .main-navigation a,
+        .nav-button,
+        .hero-badge,
+        .primary-button,
+        .secondary-button,
+        .highlight-item,
+        .step-card,
+        .step-icon,
+        .advisory-panel,
+        .advisory-card,
+        .evacuation-panel,
+        .information-item,
+        .information-icon,
+        .about-highlights > div,
+        .contact-card,
+        .contact-icon,
+        .contact-form-panel,
+        .outline-button,
+        .system-test-section button,
+        .footer-links a
+    `);
+
+    glowElements.forEach(function (element) {
+
+        element.classList.add("cursor-glow");
+
+        element.addEventListener("pointermove", function (event) {
+
+            if (event.pointerType === "touch") {
+                return;
+            }
+
+            const rect = element.getBoundingClientRect();
+
+            element.style.setProperty(
+                "--glow-x",
+                ((event.clientX - rect.left) / rect.width) * 100 + "%"
+            );
+
+            element.style.setProperty(
+                "--glow-y",
+                ((event.clientY - rect.top) / rect.height) * 100 + "%"
+            );
+        });
+    });
+}
+
+
+/* =========================================================
+   5. SCROLL REVEAL
+========================================================= */
+
+function initScrollReveal() {
+
+    // Reduced motion or no IntersectionObserver:
+    // leave everything visible, add nothing.
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+        return;
+    }
+
+    const revealElements = document.querySelectorAll(`
         .hero-content,
         .hero-visual,
         .section-heading,
@@ -322,39 +262,33 @@ document.addEventListener("DOMContentLoaded", function () {
         .footer-bottom
     `);
 
-    // Accessibility: show everything without animation
-    if (
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches
-    ) {
-        return;
-    }
-
-    // Fallback for unsupported browsers
-    if (!("IntersectionObserver" in window)) {
-        return;
-    }
-
-    // Observe elements as they enter the screen
     const observer = new IntersectionObserver(
-        function (entries, observer) {
+        function (entries) {
 
             entries.forEach(function (entry) {
 
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add(
-                        "reveal-on-scroll",
-                        "is-visible"
-                    );
-
-                    // Animate only once
-                    observer.unobserve(entry.target);
+                if (!entry.isIntersecting) {
+                    return;
                 }
 
-            });
+                const element = entry.target;
 
+                element.classList.add("is-visible");
+                observer.unobserve(element);
+
+                // Once revealed, drop the reveal classes so the
+                // stagger delay and transform don't linger and
+                // make hover effects feel sluggish.
+                element.addEventListener("transitionend", function cleanup(event) {
+
+                    if (event.target !== element || event.propertyName !== "opacity") {
+                        return;
+                    }
+
+                    element.classList.remove("reveal-on-scroll", "is-visible");
+                    element.removeEventListener("transitionend", cleanup);
+                });
+            });
         },
         {
             threshold: 0.12,
@@ -362,114 +296,50 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
-    elements.forEach(function (element) {
-
+    revealElements.forEach(function (element) {
         element.classList.add("reveal-on-scroll");
-
         observer.observe(element);
-
     });
-
-});
+}
 
 
 /* =========================================================
-   LGU ASSIST — 3D SCROLL PARALLAX
+   6. CONTACT FORM (PLACEHOLDER)
+   Prevents a page reload until the backend endpoint exists.
+========================================================= */
+
+function initContactForm() {
+
+    const form = document.getElementById("contactForm");
+    const status = document.getElementById("contactStatus");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        if (status) {
+            status.textContent =
+                "Inquiries can't be sent yet. This form will be connected to the backend soon.";
+        }
+    });
+}
+
+
+/* =========================================================
+   INIT
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const visual = document.getElementById("heroVisual");
+    initEmblemTilt();
+    initScrollParallax();
+    initCursorGlow();
+    initScrollReveal();
+    initContactForm();
 
-    if (!visual) {
-        return;
-    }
-
-    // Respect reduced-motion accessibility settings
-    if (
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches
-    ) {
-        return;
-    }
-
-    let animationFrame = null;
-
-    function updateScrollParallax() {
-
-        const rect = visual.getBoundingClientRect();
-
-        // Find the center of the 3D object
-        const visualCenter = rect.top + rect.height / 2;
-
-        const viewportCenter = window.innerHeight / 2;
-
-        // Calculate scroll progress relative to the viewport
-        const maxDistance =
-            (window.innerHeight + rect.height) / 2;
-
-        const progress = Math.max(
-            -1,
-            Math.min(
-                1,
-                (viewportCenter - visualCenter) / maxDistance
-            )
-        );
-
-        // Move each glass layer at a different speed
-        visual.style.setProperty(
-            "--scroll-back-y",
-            (-progress * 46) + "px"
-        );
-
-        visual.style.setProperty(
-            "--scroll-middle-y",
-            (-progress * 30) + "px"
-        );
-
-        visual.style.setProperty(
-            "--scroll-front-y",
-            (-progress * 16) + "px"
-        );
-
-        visual.style.setProperty(
-            "--scroll-ring-y",
-            (-progress * 8) + "px"
-        );
-
-        animationFrame = null;
-    }
-
-    // Optimize scroll updates with requestAnimationFrame
-    function requestParallaxUpdate() {
-
-        if (animationFrame !== null) {
-            return;
-        }
-
-        animationFrame = requestAnimationFrame(
-            updateScrollParallax
-        );
-    }
-
-    window.addEventListener(
-        "scroll",
-        requestParallaxUpdate,
-        { passive: true }
-    );
-
-    window.addEventListener(
-        "resize",
-        requestParallaxUpdate
-    );
-
-    // Initial positioning
-    updateScrollParallax();
-
+    checkConnection();
 });
-
-
-
-// Check connection when the page loads
-checkConnection();
