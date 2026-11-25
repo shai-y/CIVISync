@@ -7,10 +7,9 @@
 </p>
 
 <p align = "center">
-💡 JRC Studios <br/>
-Amelano, Charles V.<br/>
-Arago, Mary Jobine R.<br/>
-Bituin, Ralph Ivan I.</p><br/>
+Juanites, REin Lander B.<br/>
+Robeledo, Shaira<br/>
+Perez, Samantha Isabel</p><br/>
 
 <p align = "center"><b>College of Informatics and Computing Sciences | Batangas State University | Alangilan Campus </b>
 </p>
