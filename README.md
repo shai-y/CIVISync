@@ -1,1 +1,1 @@
-<h1 align = "center"> LGU-Disaster-Queue-System </h1>
+<h1 align = "center"> LGU-Dis-Qu-S </h1>
