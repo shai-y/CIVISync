@@ -188,14 +188,12 @@ The resident opens the request again to see the status and note saved by staff.
 
 | Team member | Primary role | Technical contribution |
 | --- | --- | --- |
-| Rein Lander B. Juanites | [Enter role] | [Name a feature, class, or test contributed] |
-| Shaira Robledo | [Enter role] | [Name a feature, class, or test contributed] |
-| Samantha Isabel Perez | [Enter role] | [Name a feature, class, or test contributed] |
+| Rein Lander B. Juanites | [System Architect] | 
+| Shaira Robledo | [Main Programmer] |
+| Samantha Isabel Perez | [Documenter] |
 
 ## 🎓 Acknowledgements
 
 CIVISync was developed for OOP 101 at Batangas State University, Alangilan Campus. The team thanks its instructor and classmates for their feedback throughout the project.
 
-<p> draft (you can relocate this part) </p>
-<p>Early Java prototype contributed by ReinLander: <b> [https://github.com/shai-y/CIVISync/commit/e802ba3aa5a619d47a6c409216a079531611894a]</b></p>
-</p>
+<p>Early Java prototype contributed by ReinLander: <b> [https://github.com/shai-y/CIVISync/commit/e802ba3aa5a619d47a6c409216a079531611894a]</b></p> </p>
