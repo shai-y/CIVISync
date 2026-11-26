@@ -154,9 +154,9 @@ Open the localhost address using the port shown in the Spring Boot startup log. 
 
 ## 🖼️ Example Output
 
-### 1. Resident submits an assistance request
+### 1. Resident/Staff opens the homepage
 
-The resident’s **My Requests** page shows the newly filed request and its initial status.
+The home page shows directory to logging in / signing up.
 
 ![Resident portal showing the submitted assistance request and its request number](screenshots/04-site-homepage.png)
 
