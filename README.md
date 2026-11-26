@@ -12,4 +12,7 @@ Robeledo, Shaira<br/>
 Perez, Samantha Isabel</p><br/>
 
 <p align = "center"><b>College of Informatics and Computing Sciences | Batangas State University | Alangilan Campus </b>
+
+<p> draft (you can relocate this part) </p>
+<p>Early Java prototype contributed by ReinLander: <b> [https://github.com/shai-y/CIVISync/commit/e802ba3aa5a619d47a6c409216a079531611894a]</b></p>
 </p>
