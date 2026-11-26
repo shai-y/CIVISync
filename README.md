@@ -158,15 +158,21 @@ Open the localhost address using the port shown in the Spring Boot startup log. 
 
 The resident’s **My Requests** page shows the newly filed request and its initial status.
 
+![Resident portal showing the submitted assistance request and its request number](screenshots/04-site-homepage.png)
+
+### 2. Resident submits an assistance request
+
+The resident’s **My Requests** page shows the newly filed request and its initial status.
+
 ![Resident portal showing the submitted assistance request and its request number](screenshots/01-resident-request.png)
 
-### 2. LGU staff review and update the request
+### 3. LGU staff review and update the request
 
 The staff **Request Queue** shows the same request with its priority, assigned team, status, and update for the resident.
 
 ![Staff queue showing the request assignment, status, and resident update](screenshots/02-staff-update.png)
 
-### 3. Resident views the saved update
+### 4. Resident views the saved update
 
 The resident opens the request again to see the status and note saved by staff.
 
