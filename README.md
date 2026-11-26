@@ -1,4 +1,4 @@
-<h1 align="center">🛡️ CIVISync</h1>
+<h1 align="center"><b>CIVISync</b></h1>
 
 <h3 align="center">
   Java-Based LGU Citizen Assistance and Disaster Response Queue System
