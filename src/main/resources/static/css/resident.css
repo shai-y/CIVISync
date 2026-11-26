@@ -1,0 +1,40 @@
+.portal 
+{
+	position:relative;
+	display:grid;
+	grid-template-columns:240px minmax(0,1fr);
+	min-height:100vh
+}
+.rail {
+	position:sticky;
+	top:0;align-self:start;
+	display:flex;flex-direction:column;
+	height:100vh;padding:28px 18px;
+	background:var(--admin-sidebar);
+	border-right:1px solid var(--admin-border)
+}
+.rail nav {
+	display:grid;
+	gap:5px
+}
+.rail form {
+	margin-top:auto;
+	padding-top:20px
+}
+.workspace {
+	width:min(100%,1050px);
+	margin:0 auto;
+	padding:clamp(22px,4vw,64px);
+	overflow-wrap:anywhere
+}
+.workspace h2 {
+	font-size:1.25rem
+}
+.workspace .admin-panel {
+	margin-bottom:16px
+}
+.workspace .admin-form {padding:0;max-width:680px}.admin-form button {align-self:start}
+.record p,.workspace dt,.workspace small {color:var(--admin-muted);line-height:1.6}
+.meta {display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--admin-sage-light)}
+.message {white-space:pre-wrap}.workspace dd {margin:4px 0 18px;font-weight:700}
+@media(max-width:760px){.portal{display:block}.rail{position:relative;height:auto;padding:15px}.rail .admin-brand{margin:0 0 12px}.rail .admin-sidebar__label{margin-left:0}.rail nav{display:flex;flex-wrap:wrap}.rail .admin-nav__item{width:auto;padding:8px 12px;min-height:38px}.rail form{position:absolute;right:14px;top:12px;padding:0}.workspace{padding:24px 16px}}

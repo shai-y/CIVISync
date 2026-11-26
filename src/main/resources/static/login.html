@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="CIVISync Login and Registration Portal">
+
+    <title>Login / Register |  CIVISync</title>
+
+    <!-- Quicksand Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Existing Homepage Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Authentication Styles -->
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body class="auth-page">
+
+    <!-- Background Effects -->
+    <div class="auth-background" aria-hidden="true">
+        <div class="auth-orb orb-one"></div>
+        <div class="auth-orb orb-two"></div>
+        <div class="auth-orb orb-three"></div>
+        <div class="auth-grid"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="site-header auth-header">
+        <div class="header-container">
+
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <img src="/images/shield-icon.png"
+                         alt="LGU Assist Logo">
+                </div>
+
+                <div class="brand-text">
+                    <strong>CIVISync</strong>
+                    <small>OFFICIAL CITIZEN PORTAL</small>
+                </div>
+            </a>
+
+            <nav class="main-navigation">
+                <a href="/#how-it-works">How It Works</a>
+                <a href="/#emergency">Emergency</a>
+                <a href="/#about">About</a>
+                <a href="/#contact">Contact</a>
+            </nav>
+
+            <a href="/" class="nav-button">
+                Back to Portal
+            </a>
+
+        </div>
+    </header>
+
+
+    <!-- MAIN AUTHENTICATION -->
+    <main class="auth-main">
+
+        <div class="auth-layout">
+
+            <!-- RIGHT SIDE: AUTH CARD -->
+            <section class="auth-card reveal" id="authCard">
+
+                <div class="auth-card-header">
+
+                    <div class="auth-card-icon">
+                        <img src="/images/shield-icon.png"
+                             alt="">
+                    </div>
+
+                    <div>
+                        <h2 id="authTitle">Citizen Account</h2>
+                        <p id="authSubtitle">
+                            Access your LGU services
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- LOGIN / REGISTER TABS -->
+                <div class="auth-tabs">
+
+                    <button type="button"
+                            class="auth-tab active"
+                            id="loginTab">
+                        Login
+                    </button>
+
+                    <button type="button"
+                            class="auth-tab"
+                            id="registerTab">
+                        Register
+                    </button>
+
+                </div>
+
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm" class="auth-form" action="/api/login" method="post">
+
+                    <div class="form-field">
+
+                        <label for="loginEmail">
+                            Email or mobile number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="text"
+                                id="loginEmail"
+                                name="identifier"
+                                placeholder="juan@email.com"
+                                autocomplete="username"
+                                required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <div class="label-row">
+                            <label for="loginPassword">
+                                Password
+                            </label>
+
+                            <a href="#" class="forgot-link">
+                                Forgot password?
+                            </a>
+                        </div>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+                            <button type="button"
+                                    class="password-toggle"
+                                    data-target="loginPassword"
+                                    aria-label="Show password">
+                                ◉
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="auth-submit">
+                        Login <span>→</span>
+                    </button>
+
+                </form> 
+
+                <!-- REGISTRATION FORM -->
+                <form id="registerForm"
+                      class="auth-form hidden">
+
+                    <div class="form-field">
+
+                        <label for="fullName">Full name</label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="fullName"
+                                placeholder="Juan Dela Cruz"
+                                autocomplete="name"
+                                required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="registerEmail">
+                            Email address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="email"
+                                id="registerEmail"
+                                name="email"
+                                placeholder="juan@email.com"
+                                autocomplete="email"
+                                required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="mobileNumber">
+                            Mobile number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="tel"
+                                id="mobileNumber"
+                                name="mobileNumber"
+                                placeholder="09XXXXXXXXX"
+                                autocomplete="tel"
+                                pattern="09[0-9]{9}"
+                                title="Enter an 11-digit Philippine mobile number starting with 09."
+                                required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="barangay">
+                            Barangay
+                        </label>
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">⌂</span>
+
+                            <select id="barangay"
+                                    name="barangay"
+                                    required>
+                                <option value="" disabled selected>
+                                    Select your barangay
+                                </option>
+                                <option value="Barangay 1">Alangilan</option>
+                                <option value="Barangay 2">Balagtas</option>
+                                <option value="Barangay 3">Balete</option>
+								<option value="Barangay 3">Banaba Center</option>
+								<option value="Barangay 3">Banaba Kanluran</option>
+								<option value="Barangay 3">Bolbok</option>								
+								<option value="Barangay 3">Calicanto</option>
+								<option value="Barangay 3">Concepcion</option>								
+								<option value="Barangay 3">Cuta</option>								
+								<option value="Barangay 3">Gulod Labak</option>													
+								<option value="Barangay 3">Kumintang Ibaba</option>
+								<option value="Barangay 3">Libjo</option>								
+								<option value="Barangay 3">Mahabang Parang</option>								
+								<option value="Barangay 3">Sorosoro Ilaya</option>						
+								<option value="Barangay 3">Tinga Labak</option>								
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="registerPassword">
+                            Create password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="password"
+                                id="registerPassword"
+                                name="password"
+                                placeholder="Create a password"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required>
+
+                            <button type="button"
+                                    class="password-toggle"
+                                    data-target="registerPassword"
+                                    aria-label="Show password">
+                                ◉
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="confirmPassword">
+                            Confirm password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm your password"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required>
+                        </div>
+
+                    </div>
+
+
+                    <label class="terms-check">
+                        <input type="checkbox" id="terms" required>
+
+                        <span>
+                            I agree to the
+                            <a href="#">Terms of Service</a>
+                            and
+                            <a href="#">Privacy Policy</a>.
+                        </span>
+                    </label>
+
+
+                    <button type="submit" class="auth-submit">
+                        Create Account <span>→</span>
+                    </button>
+
+                </form>
+
+
+                <!-- SECURITY FOOTER -->
+                <div class="auth-security">
+
+                    <div>
+                        Your information is handled with care
+                    </div>
+
+                </div>
+
+                <p class="auth-message"
+                   id="authMessage"
+                   role="status"
+                   aria-live="polite"></p>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <footer class="auth-footer reveal">
+        <p>
+            © 2026  CIVISync. Municipal Citizen Assistance Portal.
+        </p>
+    </footer>
+
+
+    <script src="/js/auth.js"></script>
+
+</body>
+</html>
