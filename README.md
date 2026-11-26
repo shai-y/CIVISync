@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  Rein Lander B. Juanites<br>
-  Shaira Robledo<br>
-  Samantha Isabel Perez
+  Juanites, Rein Lander B. <br>
+  Robledo, Shaira P.<br>
+  Perez, Samantha Isabel 
 </p>
 
 <p align="center">
