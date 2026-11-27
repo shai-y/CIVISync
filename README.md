@@ -201,9 +201,9 @@ The resident opens the request again to see the status and note saved by staff.
 
 | Team member | Primary role |
 | --- | --- | 
-| Rein Lander B. Juanites | [System Architect] | 
-| Shaira Robledo | [Main Programmer] |
-| Samantha Isabel Perez | [Documenter] |
+| Rein Lander B. Juanites | System Architect | 
+| Shaira Robledo | Main Programmer |
+| Samantha Isabel Perez | Documenter |
 
 ## 🎓 Acknowledgements
 
