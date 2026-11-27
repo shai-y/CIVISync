@@ -136,8 +136,9 @@ Open the localhost address using the port shown in the Spring Boot startup log. 
 1. Open **Login / Register**, create a test resident account, and file a sample request.
 2. For a fresh classroom setup, register a second test account. In the local database, edit that second account’s `role` in `accounts` to `STAFF`.
 3. Sign in to the staff account in a separate browser or private window.
-4. Open **Request Queue**, find the sample request, enter a note, and click **Save update**.
-5. Return to the resident account, refresh **My Requests**, and check that the same request shows the saved update.
+4. In the staff portal, open **Response Teams** and add one test team. On a fresh database, this gives you a team to select in the request queue.
+5. Open **Request Queue** and find the request filed in step 1. Select the test team, set the status to **Assigned**, enter a note under **Update for resident**, and click **Save update**.
+6. Return to the resident’s browser window and refresh **My Requests**. Open the same request number and confirm that the status is **Assigned** and the note matches what staff entered.
 
 ## 📂 Project Structure
 
