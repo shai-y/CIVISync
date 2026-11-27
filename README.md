@@ -22,13 +22,13 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 CIVISync is a Java web application that helps residents request disaster-related assistance and helps local government unit (LGU) staff coordinate a response. A resident can describe what happened, provide a location, and check the progress of the request. Staff use a shared queue to review requests, assess priority, assign response teams, and send updates.
 
 The project addresses two questions that arise after a request is filed: **Who is handling it?** and **How can the resident find out what has happened?** CIVISync connects both portals to the same request record. When a staff member saves a status or note, the resident can open that request and see the update.
 
-## 🎯 Project Objectives
+## Project Objectives
 
 - Give residents one place to submit and track assistance requests.
 - Help LGU staff review incoming requests, assess urgency, and coordinate response teams.
@@ -60,7 +60,7 @@ The project addresses two questions that arise after a request is filed: **Who i
 | `notices` | Published advisories, their authors, and publication dates |
 | `activity` | Recorded actions, the accounts that performed them, and timestamps |
 
-## ☕ Java and OOP Implementation
+## Java and OOP Implementation
 
 The shared login provides an example of the four OOP principles working together. Residents and staff sign in through the same form, but each account type determines its own landing page.
 
@@ -91,7 +91,7 @@ The security configuration also checks the user’s role when a protected page o
 | Local database tools | XAMPP, phpMyAdmin |
 | Build and version control | Maven Wrapper, Git, GitHub |
 
-## ▶️ How to Run the Program
+## How to Run the Program
 
 ### 1. Download the project
 
@@ -153,7 +153,7 @@ Open the localhost address using the port shown in the Spring Boot startup log. 
 | `pom.xml` | Maven dependencies and build configuration |
 | `mvnw` and `mvnw.cmd` | Maven Wrapper launchers |
 
-## 🖼️ Example Output
+## Example Output
 
 ### 1. Resident/Staff opens the homepage
 
@@ -185,13 +185,13 @@ The resident opens the request again to see the status and note saved by staff.
 
 ![Resident portal showing the updated status and staff note for the same request](screenshots/03-resident-result.png)
 
-## 📌 Known Limitations
+## Known Limitations
 
 - Staff assess urgency and assign teams manually.
 - Residents see the latest information staff have saved. A change in field conditions requires a staff update before it appears in the portal.
 - The classroom setup requires a running Spring Boot application and MariaDB database.
 
-## 🔭 Future Improvements
+## Future Improvements
 
 - Add opt-in notifications when a request changes status.
 - Show a timeline of status changes so residents can follow a request from submission to resolution.
